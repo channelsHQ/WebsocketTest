@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="600.0" spacing="4.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.channelshq.websocketclient.MainController">
+   <children>
+      <JFXTextField fx:id="txtSubscribeTo" labelFloat="true" prefHeight="33.0" prefWidth="592.0" promptText="From... (Subscribed to)" text="/topic/greetings">
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </JFXTextField>
+      <JFXTextField fx:id="txtSendTo" labelFloat="true" prefHeight="36.0" prefWidth="592.0" promptText="Send to..." text="/app/hello">
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </JFXTextField>
+      <JFXTextArea fx:id="txtMessage" prefHeight="75.0" prefWidth="592.0" promptText="Your Message here" />
+      <JFXButton fx:id="btnSend" buttonType="RAISED" defaultButton="true" onAction="#sendMessage" prefHeight="36.0" prefWidth="112.0" text="Send Message" />
+      <Separator prefWidth="200.0" />
+      <Label text="Messages" />
+      <JFXListView fx:id="lstChat" prefHeight="238.0" prefWidth="592.0" />
+   </children>
+   <padding>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="10.0" />
+   </padding>
+</VBox>
