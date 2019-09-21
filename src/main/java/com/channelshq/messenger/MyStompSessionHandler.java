@@ -1,5 +1,6 @@
 package com.channelshq.messenger;
 
+import com.channelshq.websocketclient.MainController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -8,6 +9,7 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
 import java.lang.reflect.Type;
+import javafx.application.Platform;
 
 /**
  * This class is an implementation for <code>StompSessionHandlerAdapter</code>.
@@ -20,15 +22,27 @@ import java.lang.reflect.Type;
 public class MyStompSessionHandler extends StompSessionHandlerAdapter {
 
     private Logger logger = LogManager.getLogger(MyStompSessionHandler.class);
-
+    
+    MainController controller;
+    
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-        logger.info("New session established : " + session.getSessionId());
+        Platform.runLater( new Runnable() {
+            @Override
+            public void run() {
+                controller.getListView().getItems().add("From SessionHandler: COnnection successfull : ");
+            }
+        });
+        //logger.info("New session established : " + session.getSessionId());
         
-        session.subscribe("/topic/messages", this);
-        logger.info("Subscribed to /topic/messages");
-        session.send("/app/channels", getSampleMessage());
-        logger.info("Message sent to websocket server");
+        //session.subscribe("/topic/messages", this);
+        //logger.info("From Handler: Subscribed to /topic/messages");
+//        controller.getListView().getItems().add("From Handler: Subscribed to /topic/messages");
+
+//        session.send("/app/channels", getSampleMessage());
+//        logger.info("Message sent to websocket server");
+//                controller.getListView().getItems().add("From Handler: Message sent to webserver");
+
     }
 
     @Override
@@ -36,17 +50,15 @@ public class MyStompSessionHandler extends StompSessionHandlerAdapter {
         logger.error("Got an exception", exception);
     }
 
-    @Override
-    public Type getPayloadType(StompHeaders headers) {
-        return Message.class;
+    public MainController getController() {
+        return controller;
     }
 
-    @Override
-    public void handleFrame(StompHeaders headers, Object payload) {
-        Message msg = (Message) payload;
-        
-        logger.info("Received : " + msg.getMessage()+ " from : " + msg.getFrom());
+    public void setController(MainController controller) {
+        this.controller = controller;
     }
+
+    
 
     /**
      * A sample message instance.
